@@ -34,47 +34,73 @@ var main = function () {
     var directionalLight = new THREE.DirectionalLight(0xffffff);
     directionalLight.position.set(0, 0.7, 0.7);
     scene.add(directionalLight);
+    var light = new THREE.AmbientLight(0x404040); // soft white light
+    scene.add(light);
     var targetList = [];
-    for (var i = 0; i < 10; i++) {
+    for (var i = 0; i < 1000; i++) {
         var geometry = new THREE.CubeGeometry(1, 1, 1);
         var material = new THREE.MeshPhongMaterial({
             color: 0xff0000
         });
         var mesh = new THREE.Mesh(geometry, material);
         scene.add(mesh);
-        mesh.position.set(i, 0, 0);
+        mesh.position.set(Math.random() * 100 - 50, i % 5, Math.random() * 100 - 50);
         targetList[i] = mesh;
     }
+    var mx = 0;
+    var my = 0;
+    var keysPress = new Array(256);
+    var rot = 0;
     (function renderLoop() {
         requestAnimationFrame(renderLoop);
+        var rx = 0;
+        var rz = 0;
+        //w:87 s:83 d:68 a:65
+        if (keysPress[87]) rz = 1;
+        if (keysPress[83]) rz = -1;
+        if (keysPress[68]) rx = -1;
+        if (keysPress[65]) rx = 1;
+        camera.position.x = camera.position.x + rz * Math.sin(rot) + rx * Math.cos(rot);
+        camera.position.z = camera.position.z + rz * Math.cos(rot) + rx * Math.sin(rot);
         //mesh.rotation.set(0, mesh.rotation.y + 0.01, mesh.rotation.z + 0.01);
         renderer.render(scene, camera);
     })();
     var projector = new THREE.Projector();
-    //マウスのグローバル変数
     var mouse = {
         x: 0
         , y: 0
     };
     console.log(scene.objects);
+    window.onkeydown = function (ev) {
+        keysPress[ev.keyCode] = true;
+    }
+    window.onkeyup = function (ev) {
+        keysPress[ev.keyCode] = false;
+    }
+    window.onmousemove = function (ev) {
+        var h = Math.sin(ev.clientY / height * Math.PI + Math.PI * 0.5);
+        var c = Math.sqrt(1 - h * h);
+        var r = ev.clientX / width * 10;
+        rot = r;
+        camera.lookAt(new THREE.Vector3(Math.sin(r) * c + camera.position.x, camera.position.y + h, Math.cos(r) * c + camera.position.z));
+        //camera.rotation.x = ev.clientY / height * Math.PI + Math.PI * 0.5;
+        //camera.rotation.x = ev.clientY / height * Math.PI + Math.PI * 0.5;
+        //mx = ev.clientX;
+        //my = ev.clientY;
+    }
+
+    function rotateCamera(xaxis, yaxis) {}
     window.onmousedown = function (ev) {
         if (ev.target == renderer.domElement) {
-            //マウス座標2D変換
             var rect = ev.target.getBoundingClientRect();
             mouse.x = ev.clientX - rect.left;
             mouse.y = ev.clientY - rect.top;
-            //マウス座標3D変換 width（横）やheight（縦）は画面サイズ
             mouse.x = (mouse.x / width) * 2 - 1;
             mouse.y = -(mouse.y / height) * 2 + 1;
-            // マウスベクトル
             var vector = new THREE.Vector3(mouse.x, mouse.y, 1);
-            // vector はスクリーン座標系なので, オブジェクトの座標系に変換
             projector.unprojectVector(vector, camera);
-            // 始点, 向きベクトルを渡してレイを作成
             var ray = new THREE.Raycaster(camera.position, vector.sub(camera.position).normalize());
-            // クリック判定
             var obj = ray.intersectObjects(targetList);
-            // クリックしていたら、alertを表示  
             if (obj.length > 0) {
                 if (ev.button == 2) {
                     var geometry = new THREE.CubeGeometry(1, 1, 1);
@@ -98,9 +124,9 @@ var main = function () {
                     }
                     targetList.splice(index, 1);
                     scene.remove(obj[0].object);
-                    alert(targetList);
                 }
             }
+            ev.preventDefault();
         }
     };
 };
