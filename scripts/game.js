@@ -86,30 +86,28 @@ var main = function () {
             camera.lookAt(new THREE.Vector3(Math.sin(r) * c + camera.position.x, camera.position.y + h, Math.cos(r) * c + camera.position.z));
             */
         }
-        /*
         for (var i = 0; i < event.targetTouches.length; i++) {
             lastTouches[i] = {
                 x: event.targetTouches[i].clientX
                 , y: event.targetTouches[i].clientY
             };
         }
-        */
     }
 
     function onTouchMove(event) {
-        /*
         for (var i = 0; i < event.targetTouches.length; i++) {
             pitch += lastTouches[i].y - event.targetTouches[i].clientY;
             rot += lastTouches[i].x - event.targetTouches[i].clientX;
             var h = Math.sin(pitch);
             var c = Math.sqrt(1 - h * h);
-            camera.lookAt(new THREE.Vector3(Math.sin(r) * c + camera.position.x, camera.position.y + h, Math.cos(r) * c + camera.position.z));
+            camera.lookAt(new THREE.Vector3(Math.sin(r) + camera.position.x, camera.position.y, Math.cos(r) + camera.position.z));
+            /*
+            camera.lookAt(new THREE.Vector3(Math.sin(r) * c + camera.position.x, camera.position.y + h, Math.cos(r) * c + camera.position.z));*/
             lastTouches[i] = {
                 x: event.targetTouches[i].clientX
                 , y: event.targetTouches[i].clientY
             };
         }
-        */
         // Prevent the browser from doing its default thing (scroll, zoom)
         event.preventDefault();
     }
