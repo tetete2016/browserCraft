@@ -75,11 +75,13 @@ var main = function () {
     function onTouchStart(event) {
         //alert("touch");
         //do stuff
-        var h = Math.sin(event.changedTouches[0].clientY / height * Math.PI + Math.PI * 0.5);
-        var c = Math.sqrt(1 - h * h);
-        var r = -event.changedTouches[0] / width * 10;
-        rot = r;
-        camera.lookAt(new THREE.Vector3(Math.sin(r) * c + camera.position.x, camera.position.y + h, Math.cos(r) * c + camera.position.z));
+        if (event.changedTouches.length > 0) {
+            var h = Math.sin(event.changedTouches[0].clientY / height * Math.PI + Math.PI * 0.5);
+            var c = Math.sqrt(1 - h * h);
+            var r = -event.changedTouches[0] / width * 10;
+            rot = r;
+            camera.lookAt(new THREE.Vector3(Math.sin(r) * c + camera.position.x, camera.position.y + h, Math.cos(r) * c + camera.position.z));
+        }
         /*
         for (var i = 0; i < event.targetTouches.length; i++) {
             lastTouches[i] = {
