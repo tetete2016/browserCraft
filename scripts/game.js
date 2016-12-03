@@ -16,6 +16,8 @@ var main = function () {
     var my = 0;
     var keysPress = new Array(256);
     var rot = 0;
+    var lastFrame = new Date().getTime();
+    var deltaTime = 0;
     createUI();
     generateObjects();
     (function renderLoop() {
@@ -24,22 +26,29 @@ var main = function () {
         var rz = 0;
         var rot1 = rot;
         var v;
+        deltaTime = (new Date().getTime() - lastFrame) * 0.001;
         //w:87 s:83 d:68 a:65
         if (keysPress[87]) rz = 1;
         if (keysPress[83]) rz = -1;
         if (keysPress[68]) rx = -1;
         if (keysPress[65]) rx = 1;
-        camera.position.x = camera.position.x + rz * Math.sin(rot1) + rx * Math.sin(rot1 + Math.PI * 0.5);
-        camera.position.z = camera.position.z + rz * Math.cos(rot1) + rx * Math.cos(rot1 + Math.PI * 0.5);
+        var vx = rz * Math.sin(rot1) + rx * Math.sin(rot1 + Math.PI * 0.5);
+        vx *= deltaTime * 10;
+        var vz = rz * Math.cos(rot1) + rx * Math.cos(rot1 + Math.PI * 0.5);
+        vz *= deltaTime * 10;
+        camera.position.x = camera.position.x + vx;
+        camera.position.z = camera.position.z + vz;
         //mesh.rotation.set(0, mesh.rotation.y + 0.01, mesh.rotation.z + 0.01);
         renderer.render(scene, camera);
         //UI
+        lastFrame = new Date().getTime();
     })();
     var projector = new THREE.Projector();
     var mouse = {
         x: 0
         , y: 0
     };
+    var pitch = 0;
     console.log(scene.objects);
     window.onkeydown = function (ev) {
         keysPress[ev.keyCode] = true;
@@ -65,20 +74,35 @@ var main = function () {
 
     function onTouchStart(event) {
         //do stuff
+        var h = Math.sin(ev.targetTouches[0].clientY / height * Math.PI + Math.PI * 0.5);
+        var c = Math.sqrt(1 - h * h);
+        var r = -ev.targetTouches[0] / width * 10;
+        rot = r;
+        camera.lookAt(new THREE.Vector3(Math.sin(r) * c + camera.position.x, camera.position.y + h, Math.cos(r) * c + camera.position.z));
+        /*
         for (var i = 0; i < event.targetTouches.length; i++) {
             lastTouches[i] = {
                 x: event.targetTouches[i].clientX
                 , y: event.targetTouches[i].clientY
             };
         }
+        */
     }
 
     function onTouchMove(event) {
-        if (event.target == renderer.domElement) {
-            if (event.targetTouches.length == 1) {
-                var touch = event.targetTouches[0];
-            }
+        /*
+        for (var i = 0; i < event.targetTouches.length; i++) {
+            pitch += lastTouches[i].y - event.targetTouches[i].clientY;
+            rot += lastTouches[i].x - event.targetTouches[i].clientX;
+            var h = Math.sin(pitch);
+            var c = Math.sqrt(1 - h * h);
+            camera.lookAt(new THREE.Vector3(Math.sin(r) * c + camera.position.x, camera.position.y + h, Math.cos(r) * c + camera.position.z));
+            lastTouches[i] = {
+                x: event.targetTouches[i].clientX
+                , y: event.targetTouches[i].clientY
+            };
         }
+        */
         // Prevent the browser from doing its default thing (scroll, zoom)
         event.preventDefault();
     }
@@ -223,6 +247,15 @@ var main = function () {
         description.style.zIndex = "1";
         description.innerHTML = "right click : put blocks<br>left click : destroy blocks";
         document.body.appendChild(description);
+        window.onresize = function () {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            renderer.setSize(width, height);
+            cross.style.top = (height / 2 - 20) + "px";
+            cross.style.left = (width / 2 - 20) + "px";
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
+        }
     }
 };
 window.addEventListener('DOMContentLoaded', main, false);
