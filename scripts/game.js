@@ -74,7 +74,6 @@ var main = function () {
 
     function onTouchStart(event) {
         //alert("touch");
-        //do stuff
         if (event.changedTouches.length > 0) {
             var h = Math.sin(event.changedTouches[0].clientY / height * Math.PI + Math.PI * 0.5);
             h = 0;
