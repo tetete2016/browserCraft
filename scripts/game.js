@@ -81,7 +81,10 @@ var main = function () {
             var r = -event.changedTouches[0].clientX / width * 10;
             //document.body.innerHTML += r + "," + h;
             rot = r;
+            camera.lookAt(new THREE.Vector3(Math.sin(r) + camera.position.x, camera.position.y, Math.cos(r) + camera.position.z));
+            /*
             camera.lookAt(new THREE.Vector3(Math.sin(r) * c + camera.position.x, camera.position.y + h, Math.cos(r) * c + camera.position.z));
+            */
         }
         /*
         for (var i = 0; i < event.targetTouches.length; i++) {
