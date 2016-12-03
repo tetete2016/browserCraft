@@ -75,9 +75,9 @@ var main = function () {
     function onTouchStart(event) {
         alert("touch");
         //do stuff
-        var h = Math.sin(ev.targetTouches[0].clientY / height * Math.PI + Math.PI * 0.5);
+        var h = Math.sin(event.changedTouches[0].clientY / height * Math.PI + Math.PI * 0.5);
         var c = Math.sqrt(1 - h * h);
-        var r = -ev.targetTouches[0] / width * 10;
+        var r = -event.changedTouches[0] / width * 10;
         rot = r;
         camera.lookAt(new THREE.Vector3(Math.sin(r) * c + camera.position.x, camera.position.y + h, Math.cos(r) * c + camera.position.z));
         /*
