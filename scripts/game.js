@@ -73,7 +73,7 @@ var main = function () {
     var lastTouches = [];
 
     function onTouchStart(event) {
-        alert("touch");
+        //alert("touch");
         //do stuff
         var h = Math.sin(event.changedTouches[0].clientY / height * Math.PI + Math.PI * 0.5);
         var c = Math.sqrt(1 - h * h);
