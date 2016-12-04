@@ -80,6 +80,7 @@ var main = function () {
             var t = event.touches[i];
             lastTouch.x = t.pageX;
             lastTouch.y = t.pageY;
+            break;
         }
         event.preventDefault();
     }
@@ -95,6 +96,7 @@ var main = function () {
             camera.lookAt(new THREE.Vector3(Math.sin(r) + camera.position.x, camera.position.y, Math.cos(r) + camera.position.z));
             lastTouch.x = t.pageX;
             lastTouch.y = t.pageY;
+            break;
         }
         // Prevent the browser from doing its default thing (scroll, zoom)
         event.preventDefault();
