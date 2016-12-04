@@ -96,7 +96,7 @@ var main = function () {
             if (pitch > Math.PI) pitch = Math.PI;
             var h = Math.sin(pitch);
             var c = Math.sqrt(1 - h * h);
-            camera.lookAt(new THREE.Vector3(Math.sin(r) * c + camera.position.x, camera.position.y + h, Math.cos(r) * c + camera.position.z));
+            camera.lookAt(new THREE.Vector3(Math.sin(rot) * c + camera.position.x, camera.position.y + h, Math.cos(rot) * c + camera.position.z));
             //camera.lookAt(new THREE.Vector3(Math.sin(rot) + camera.position.x, camera.position.y, Math.cos(rot) + camera.position.z));
             description.innerHTML = r;
             lastTouch.x = t.pageX;
