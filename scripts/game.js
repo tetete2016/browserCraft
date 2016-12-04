@@ -93,6 +93,8 @@ var main = function () {
             rot += r;
             //camera.lookAt(new THREE.Vector3(Math.sin(r) * c + camera.position.x, camera.position.y + h, Math.cos(r) * c + camera.position.z));
             camera.lookAt(new THREE.Vector3(Math.sin(r) + camera.position.x, camera.position.y, Math.cos(r) + camera.position.z));
+            lastTouch.x = t.pageX;
+            lastTouch.y = t.pageY;
         }
         // Prevent the browser from doing its default thing (scroll, zoom)
         event.preventDefault();
