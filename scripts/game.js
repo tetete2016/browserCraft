@@ -75,10 +75,6 @@ var main = function () {
         x: 0
         , y: 0
     };
-    var lastrot = {
-        x: 0
-        , y: 0
-    };
 
     function onTouchStart(event) {
         for (var i = 0; i < event.touches.length; i++) {
@@ -96,12 +92,14 @@ var main = function () {
             var h = Math.sin(t.pageY / height * Math.PI + Math.PI * 0.5);
             var c = Math.sqrt(1 - h * h);
             var r = -(t.pageX - lastTouch.x) / width * 10;
-            rot = r + lastrot.x;
+            rot = r + rot;
             if (rot < 0) rot += Math.PI * 2;
             if (rot > Math.PI * 2) rot -= Math.PI * 2;
             //camera.lookAt(new THREE.Vector3(Math.sin(r) * c + camera.position.x, camera.position.y + h, Math.cos(r) * c + camera.position.z));
             camera.lookAt(new THREE.Vector3(Math.sin(r) + camera.position.x, camera.position.y, Math.cos(r) + camera.position.z));
             description.innerHTML = lastrot.x;
+            lastTouch.x = t.pageX;
+            lastTouch.y = t.pageY;
             break;
         }
         // Prevent the browser from doing its default thing (scroll, zoom)
@@ -110,8 +108,6 @@ var main = function () {
 
     function onTouchEnd(event) {
         //do stuff
-        lastrot.x = rot;
-        lastrot.y = pitch;
     }
 
     function put(x, y) {
