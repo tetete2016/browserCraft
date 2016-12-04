@@ -89,15 +89,15 @@ var main = function () {
     function onTouchMove(event) {
         for (var i = 0; i < event.touches.length; i++) {
             var t = event.touches[i];
-            var h = Math.sin(pitch);
-            var c = Math.sqrt(1 - h * h);
             var r = (t.pageX - lastTouch.x) / width * 5;
             rot = r + rot;
             pitch += (t.pageY - lastTouch.y) / height * Math.PI;
             if (pitch < -Math.PI) pitch = -Math.PI;
             if (pitch > Math.PI) pitch = Math.PI;
-            //camera.lookAt(new THREE.Vector3(Math.sin(r) * c + camera.position.x, camera.position.y + h, Math.cos(r) * c + camera.position.z));
-            camera.lookAt(new THREE.Vector3(Math.sin(rot) + camera.position.x, camera.position.y, Math.cos(rot) + camera.position.z));
+            var h = Math.sin(pitch);
+            var c = Math.sqrt(1 - h * h);
+            camera.lookAt(new THREE.Vector3(Math.sin(r) * c + camera.position.x, camera.position.y + h, Math.cos(r) * c + camera.position.z));
+            //camera.lookAt(new THREE.Vector3(Math.sin(rot) + camera.position.x, camera.position.y, Math.cos(rot) + camera.position.z));
             description.innerHTML = r;
             lastTouch.x = t.pageX;
             lastTouch.y = t.pageY;
