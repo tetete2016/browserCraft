@@ -96,7 +96,7 @@ var main = function () {
     function onTouchMove(event) {
         for (var i = 0; i < event.targetTouches.length; i++) {
             pitch += lastTouches[i].y - event.targetTouches[i].clientY;
-            rot += (lastTouches[i].x - event.targetTouches[i].clientX) / 100;
+            rot += (lastTouches[i].x - event.targetTouches[i].clientX) / 10;
             var h = Math.sin(pitch);
             var c = Math.sqrt(1 - h * h);
             camera.lookAt(new THREE.Vector3(Math.sin(r) + camera.position.x, camera.position.y, Math.cos(r) + camera.position.z));
