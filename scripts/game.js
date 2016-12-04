@@ -92,8 +92,8 @@ var main = function () {
             var r = (t.pageX - lastTouch.x) / width * 5;
             rot = r + rot;
             pitch += (t.pageY - lastTouch.y) / height * Math.PI;
-            if (pitch < -Math.PI) pitch = -Math.PI;
-            if (pitch > Math.PI) pitch = Math.PI;
+            if (pitch < -Math.PI * 1.5) pitch = -Math.PI * 1.5;
+            if (pitch > Math.PI * 0.5) pitch = Math.PI * 0.5;
             var h = Math.sin(pitch);
             var c = Math.sqrt(1 - h * h);
             camera.lookAt(new THREE.Vector3(Math.sin(rot) * c + camera.position.x, camera.position.y + h, Math.cos(rot) * c + camera.position.z));
