@@ -70,7 +70,7 @@ var main = function () {
     renderer.domElement.addEventListener('touchstart', onTouchStart, false);
     renderer.domElement.addEventListener('touchmove', onTouchMove, false);
     renderer.domElement.addEventListener('touchend', onTouchEnd, false);
-    var lastTouche;
+    var lastTouch;
 
     function onTouchStart(event) {
         //alert("touch");
@@ -118,12 +118,6 @@ var main = function () {
             lastTouch = {
                 x: event.targetTouches[0].clientX
                 , y: event.targetTouches[0].clientY
-            };
-        }
-        for (var i = 0; i < event.targetTouches.length; i++) {
-            lastTouch = {
-                x: event.targetTouches[i].clientX
-                , y: event.targetTouches[i].clientY
             };
         }
         /*
