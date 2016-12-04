@@ -91,7 +91,7 @@ var main = function () {
             var t = event.touches[i];
             var h = Math.sin(t.pageY / height * Math.PI + Math.PI * 0.5);
             var c = Math.sqrt(1 - h * h);
-            var r = (t.pageX - lastTouch.x) / width;
+            var r = (t.pageX - lastTouch.x) / width * 5;
             rot = r + rot;
             //camera.lookAt(new THREE.Vector3(Math.sin(r) * c + camera.position.x, camera.position.y + h, Math.cos(r) * c + camera.position.z));
             camera.lookAt(new THREE.Vector3(Math.sin(rot) + camera.position.x, camera.position.y, Math.cos(rot) + camera.position.z));
