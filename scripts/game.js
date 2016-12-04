@@ -100,6 +100,7 @@ var main = function () {
             rot = r + lastrot.x;
             //camera.lookAt(new THREE.Vector3(Math.sin(r) * c + camera.position.x, camera.position.y + h, Math.cos(r) * c + camera.position.z));
             camera.lookAt(new THREE.Vector3(Math.sin(r) + camera.position.x, camera.position.y, Math.cos(r) + camera.position.z));
+            description.innerHTML = lastrot.x;
             break;
         }
         // Prevent the browser from doing its default thing (scroll, zoom)
@@ -218,6 +219,7 @@ var main = function () {
             targetList[i] = mesh;
         }
     }
+    var description = document.createElement("div");
 
     function createUI() {
         /*
@@ -240,7 +242,6 @@ var main = function () {
         cross.height = 40;
         document.body.appendChild(cross);
         renderer.domElement.style.cursor = "none";
-        var description = document.createElement("div");
         description.style.color = "#fff";
         description.style.position = "absolute";
         description.style.zIndex = "1";
