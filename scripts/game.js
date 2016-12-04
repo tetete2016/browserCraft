@@ -62,7 +62,7 @@ var main = function () {
         var c = Math.sqrt(1 - h * h);
         var r = -ev.clientX / width * 10;
         rot = r;
-        camera.lookAt(new THREE.Vector3(Math.sin(r) * c + camera.position.x, camera.position.y + h, Math.cos(r) * c + camera.position.z));
+        camera.lookAt(new THREE.Vector3(Math.sin(rot) * c + camera.position.x, camera.position.y + h, Math.cos(rot) * c + camera.position.z));
         //camera.rotation.x = ev.clientY / height * Math.PI + Math.PI * 0.5;
         //camera.rotation.x = ev.clientY / height * Math.PI + Math.PI * 0.5;
         //mx = ev.clientX;
@@ -96,7 +96,7 @@ var main = function () {
             if (rot < 0) rot += Math.PI * 2;
             if (rot > Math.PI * 2) rot -= Math.PI * 2;
             //camera.lookAt(new THREE.Vector3(Math.sin(r) * c + camera.position.x, camera.position.y + h, Math.cos(r) * c + camera.position.z));
-            camera.lookAt(new THREE.Vector3(Math.sin(r) + camera.position.x, camera.position.y, Math.cos(r) + camera.position.z));
+            camera.lookAt(new THREE.Vector3(Math.sin(rot) + camera.position.x, camera.position.y, Math.cos(rot) + camera.position.z));
             description.innerHTML = lastrot.x;
             lastTouch.x = t.pageX;
             lastTouch.y = t.pageY;
