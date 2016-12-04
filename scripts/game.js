@@ -108,11 +108,17 @@ var main = function () {
             var h = Math.sin(event.changedTouches[0].clientY / height * Math.PI + Math.PI * 0.5);
             h = 0;
             var c = Math.sqrt(1 - h * h);
-            var r = -event.changedTouches[0].clientX / width * 10;
+            var r = -(event.changedTouches[0].clientX - lastTouches[0].x) / width * 10;
             //document.body.innerHTML += r + "," + h;
-            rot = r;
+            rot += r;
             camera.lookAt(new THREE.Vector3(Math.sin(r) + camera.position.x, camera.position.y, Math.cos(r) + camera.position.z));
             //camera.lookAt(new THREE.Vector3(Math.sin(r) * c + camera.position.x, camera.position.y + h, Math.cos(r) * c + camera.position.z));
+        }
+        for (var i = 0; i < event.targetTouches.length; i++) {
+            lastTouches[i] = {
+                x: event.targetTouches[i].clientX
+                , y: event.targetTouches[i].clientY
+            };
         }
         /*
         for (var i = 0; i < event.targetTouches.length; i++) {
