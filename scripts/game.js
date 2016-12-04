@@ -95,7 +95,7 @@ var main = function () {
             rot = r + rot;
             //camera.lookAt(new THREE.Vector3(Math.sin(r) * c + camera.position.x, camera.position.y + h, Math.cos(r) * c + camera.position.z));
             camera.lookAt(new THREE.Vector3(Math.sin(rot) + camera.position.x, camera.position.y, Math.cos(rot) + camera.position.z));
-            description.innerHTML = lastrot.x;
+            description.innerHTML = r;
             lastTouch.x = t.pageX;
             lastTouch.y = t.pageY;
             break;
