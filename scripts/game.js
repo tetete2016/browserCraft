@@ -74,8 +74,14 @@ var main = function () {
         x: 0
         , y: 0
     };
+    var lastrot = {
+        x: 0
+        , y: 0
+    };
 
     function onTouchStart(event) {
+        lastrot.x = rot;
+        lastrot.y = pitch;
         for (var i = 0; i < event.touches.length; i++) {
             var t = event.touches[i];
             lastTouch.x = t.pageX;
@@ -91,11 +97,9 @@ var main = function () {
             var h = Math.sin(t.pageY / height * Math.PI + Math.PI * 0.5);
             var c = Math.sqrt(1 - h * h);
             var r = -(t.pageX - lastTouch.x) / width * 10;
-            rot += r;
+            rot += r + lastrot.x;
             //camera.lookAt(new THREE.Vector3(Math.sin(r) * c + camera.position.x, camera.position.y + h, Math.cos(r) * c + camera.position.z));
             camera.lookAt(new THREE.Vector3(Math.sin(r) + camera.position.x, camera.position.y, Math.cos(r) + camera.position.z));
-            lastTouch.x = t.pageX;
-            lastTouch.y = t.pageY;
             break;
         }
         // Prevent the browser from doing its default thing (scroll, zoom)
