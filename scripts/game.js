@@ -18,6 +18,7 @@ var main = function () {
     var rot = 0;
     var lastFrame = new Date().getTime();
     var deltaTime = 0;
+    var description = document.createElement("div");
     createUI();
     generateObjects();
     (function renderLoop() {
@@ -219,7 +220,6 @@ var main = function () {
             targetList[i] = mesh;
         }
     }
-    var description = document.createElement("div");
 
     function createUI() {
         /*
