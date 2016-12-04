@@ -85,6 +85,7 @@ var main = function () {
             camera.lookAt(new THREE.Vector3(Math.sin(r) + camera.position.x, camera.position.y, Math.cos(r) + camera.position.z));
             //camera.lookAt(new THREE.Vector3(Math.sin(r) * c + camera.position.x, camera.position.y + h, Math.cos(r) * c + camera.position.z));
     } */
+        /*
         if (event.changedTouches.length > 0) {
             var h = Math.sin(event.changedTouches[0].clientY / height * Math.PI + Math.PI * 0.5);
             h = 0;
@@ -95,6 +96,7 @@ var main = function () {
             camera.lookAt(new THREE.Vector3(Math.sin(r) + camera.position.x, camera.position.y, Math.cos(r) + camera.position.z));
             //camera.lookAt(new THREE.Vector3(Math.sin(r) * c + camera.position.x, camera.position.y + h, Math.cos(r) * c + camera.position.z));
         }
+        */
         for (var i = 0; i < event.targetTouches.length; i++) {
             lastTouches[i] = {
                 x: event.targetTouches[i].clientX
