@@ -70,70 +70,30 @@ var main = function () {
     renderer.domElement.addEventListener('touchstart', onTouchStart, false);
     renderer.domElement.addEventListener('touchmove', onTouchMove, false);
     renderer.domElement.addEventListener('touchend', onTouchEnd, false);
-    var lastTouch;
+    var lastTouch = {
+        x: 0
+        , y: 0
+    };
 
     function onTouchStart(event) {
-        //alert("touch");
-        /*
-        if (event.changedTouches.length > 0) {
-            var h = Math.sin(event.changedTouches[0].clientY / height * Math.PI + Math.PI * 0.5);
-            h = 0;
-            var c = Math.sqrt(1 - h * h);
-            var r = -event.changedTouches[0].clientX / width * 10;
-            //document.body.innerHTML += r + "," + h;
-            rot = r;
-            camera.lookAt(new THREE.Vector3(Math.sin(r) + camera.position.x, camera.position.y, Math.cos(r) + camera.position.z));
-            //camera.lookAt(new THREE.Vector3(Math.sin(r) * c + camera.position.x, camera.position.y + h, Math.cos(r) * c + camera.position.z));
-    } */
-        /*
-        if (event.changedTouches.length > 0) {
-            var h = Math.sin(event.changedTouches[0].clientY / height * Math.PI + Math.PI * 0.5);
-            h = 0;
-            var c = Math.sqrt(1 - h * h);
-            var r = -event.changedTouches[0].clientX / width * 10;
-            //document.body.innerHTML += r + "," + h;
-            rot = r;
-            camera.lookAt(new THREE.Vector3(Math.sin(r) + camera.position.x, camera.position.y, Math.cos(r) + camera.position.z));
-            //camera.lookAt(new THREE.Vector3(Math.sin(r) * c + camera.position.x, camera.position.y + h, Math.cos(r) * c + camera.position.z));
+        for (var i = 0; i < event.touches.length; i++) {
+            var t = event.touches[i];
+            lastTouch.x = t.pageX;
+            lastTouch.y = t.pageY;
         }
-        */
-        if (event.changedTouches.length > 0) {
-            lastTouch = {
-                x: event.targetTouches[0].clientX
-                , y: event.targetTouches[0].clientY
-            };
-        }
+        event.preventDefault();
     }
 
     function onTouchMove(event) {
-        if (event.changedTouches.length > 0) {
-            var h = Math.sin(event.changedTouches[0].clientY / height * Math.PI + Math.PI * 0.5);
-            h = 0;
+        for (var i = 0; i < event.touches.length; i++) {
+            var t = event.touches[i];
+            var h = Math.sin(t.pageY / height * Math.PI + Math.PI * 0.5);
             var c = Math.sqrt(1 - h * h);
-            var r = -(event.changedTouches[0].clientX - lastTouch.x) / width;
-            //document.body.innerHTML += r + "," + h;
-            rot += r;
-            camera.lookAt(new THREE.Vector3(Math.sin(r) + camera.position.x, camera.position.y, Math.cos(r) + camera.position.z));
+            var r = -t.pageX / width * 10;
+            rot = r;
             //camera.lookAt(new THREE.Vector3(Math.sin(r) * c + camera.position.x, camera.position.y + h, Math.cos(r) * c + camera.position.z));
-            lastTouch = {
-                x: event.targetTouches[0].clientX
-                , y: event.targetTouches[0].clientY
-            };
+            camera.lookAt(new THREE.Vector3(Math.sin(r) + camera.position.x, camera.position.y, Math.cos(r) + camera.position.z));
         }
-        /*
-        for (var i = 0; i < event.targetTouches.length; i++) {
-            pitch += lastTouches[i].y - event.targetTouches[i].clientY;
-            rot += (lastTouches[i].x - event.targetTouches[i].clientX) / 10;
-            var h = Math.sin(pitch);
-            var c = Math.sqrt(1 - h * h);
-            camera.lookAt(new THREE.Vector3(Math.sin(r) + camera.position.x, camera.position.y, Math.cos(r) + camera.position.z));
-            
-            //camera.lookAt(new THREE.Vector3(Math.sin(r) * c + camera.position.x, camera.position.y + h, Math.cos(r) * c + camera.position.z));
-            lastTouches[i] = {
-                x: event.targetTouches[i].clientX
-                , y: event.targetTouches[i].clientY
-            };
-        }*/
         // Prevent the browser from doing its default thing (scroll, zoom)
         event.preventDefault();
     }
