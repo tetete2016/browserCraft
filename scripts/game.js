@@ -81,8 +81,6 @@ var main = function () {
     };
 
     function onTouchStart(event) {
-        lastrot.x = rot;
-        lastrot.y = pitch;
         for (var i = 0; i < event.touches.length; i++) {
             var t = event.touches[i];
             lastTouch.x = t.pageX;
@@ -112,6 +110,8 @@ var main = function () {
 
     function onTouchEnd(event) {
         //do stuff
+        lastrot.x = rot;
+        lastrot.y = pitch;
     }
 
     function put(x, y) {
