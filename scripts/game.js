@@ -75,6 +75,10 @@ var main = function () {
         x: 0
         , y: 0
     };
+    var touchPos = {
+        x: 0
+        , y: 0
+    };
     var touchTime = 0;
 
     function onTouchStart(event) {
@@ -82,6 +86,8 @@ var main = function () {
             var t = event.touches[i];
             lastTouch.x = t.pageX;
             lastTouch.y = t.pageY;
+            touchPos.x = t.pageX;
+            touchPos.y = t.pageY;
             touchTime = new Date().getTime();
             break;
         }
@@ -112,7 +118,7 @@ var main = function () {
     function onTouchEnd(event) {
         //do stuff
         description.innerHTML = new Date().getTime() - touchTime;
-        if (new Date().getTime() - touchTime < 100) {
+        if (new Date().getTime() - touchTime < 200) {
             put(0, 0);
         }
     }
