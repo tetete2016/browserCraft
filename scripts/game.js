@@ -75,12 +75,14 @@ var main = function () {
         x: 0
         , y: 0
     };
+    var touchTime = 0;
 
     function onTouchStart(event) {
         for (var i = 0; i < event.touches.length; i++) {
             var t = event.touches[i];
             lastTouch.x = t.pageX;
             lastTouch.y = t.pageY;
+            touchTime = new Date().getTime();
             break;
         }
         event.preventDefault();
@@ -109,6 +111,9 @@ var main = function () {
 
     function onTouchEnd(event) {
         //do stuff
+        if (new Date().getTime - touchTime < 0.1) {
+            put(0, 0);
+        }
     }
 
     function put(x, y) {
