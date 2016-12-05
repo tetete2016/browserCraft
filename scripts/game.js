@@ -100,7 +100,7 @@ var main = function () {
             var c = Math.sqrt(1 - h * h);
             camera.lookAt(new THREE.Vector3(Math.sin(rot) * c + camera.position.x, camera.position.y + h, Math.cos(rot) * c + camera.position.z));
             //camera.lookAt(new THREE.Vector3(Math.sin(rot) + camera.position.x, camera.position.y, Math.cos(rot) + camera.position.z));
-            description.innerHTML = r;
+            //description.innerHTML = r;
             lastTouch.x = t.pageX;
             lastTouch.y = t.pageY;
             break;
@@ -111,6 +111,7 @@ var main = function () {
 
     function onTouchEnd(event) {
         //do stuff
+        description.innerHTML = new Date().getTime - touchTime;
         if (new Date().getTime - touchTime < 0.1) {
             put(0, 0);
         }
