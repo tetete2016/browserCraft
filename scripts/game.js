@@ -111,8 +111,8 @@ var main = function () {
 
     function onTouchEnd(event) {
         //do stuff
-        description.innerHTML = new Date().getTime - touchTime;
-        if (new Date().getTime - touchTime < 0.1) {
+        description.innerHTML = new Date().getTime() - touchTime;
+        if (new Date().getTime() - touchTime < 0.1) {
             put(0, 0);
         }
     }
