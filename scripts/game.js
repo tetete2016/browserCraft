@@ -117,14 +117,11 @@ var main = function () {
 
     function onTouchEnd(event) {
         //do stuff
-        for (var i = 0; i < event.touches.length; i++) {
-            description.innerHTML = new Date().getTime() - touchTime;
-            var xd = touchPos.x - event.touches[i].pageX;
-            var yd = touchPos.y - event.touches[i].pageY;
-            if (new Date().getTime() - touchTime < 200 && xd * xd + yd * yd < 10) {
-                put(0, 0);
-            }
-            break;
+        description.innerHTML = new Date().getTime() - touchTime;
+        var xd = touchPos.x - lastTouch.x;
+        var yd = touchPos.y - lastTouch.y;
+        if (new Date().getTime() - touchTime < 200 && xd * xd + yd * yd < 10) {
+            put(0, 0);
         }
     }
 
