@@ -98,23 +98,20 @@ var main = function () {
 
     function onTouchMove(event) {
         for (var i = 0; i < event.touches.length; i++) {
-            if (t.pageX <= 200 && t.pageY >= document.body.clientHeight - 200) alert("dpad");
             var t = event.touches[i];
             var r = (t.pageX - lastTouch.x) / width * 5;
-            if (!firsttouch) {
-                rot = r + rot;
-                pitch += (t.pageY - lastTouch.y) / height * Math.PI;
-                if (pitch < -Math.PI * 1.5) pitch = -Math.PI * 1.5;
-                if (pitch > Math.PI * 0.5) pitch = Math.PI * 0.5;
-                var h = Math.sin(pitch);
-                var c = Math.sqrt(1 - h * h);
-                camera.lookAt(new THREE.Vector3(Math.sin(rot) * c + camera.position.x, camera.position.y + h, Math.cos(rot) * c + camera.position.z));
-            }
+            if (t.pageX <= 200 && t.pageY >= document.body.clientHeight - 200) alert("dpad");
+            rot = r + rot;
+            pitch += (t.pageY - lastTouch.y) / height * Math.PI;
+            if (pitch < -Math.PI * 1.5) pitch = -Math.PI * 1.5;
+            if (pitch > Math.PI * 0.5) pitch = Math.PI * 0.5;
+            var h = Math.sin(pitch);
+            var c = Math.sqrt(1 - h * h);
+            camera.lookAt(new THREE.Vector3(Math.sin(rot) * c + camera.position.x, camera.position.y + h, Math.cos(rot) * c + camera.position.z));
             //camera.lookAt(new THREE.Vector3(Math.sin(rot) + camera.position.x, camera.position.y, Math.cos(rot) + camera.position.z));
             //description.innerHTML = r;
             lastTouch.x = t.pageX;
             lastTouch.y = t.pageY;
-            firsttouch = false;
             break;
         }
         // Prevent the browser from doing its default thing (scroll, zoom)
