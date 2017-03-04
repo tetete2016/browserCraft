@@ -19,6 +19,7 @@ var main = function () {
     var lastFrame = new Date().getTime();
     var deltaTime = 0;
     var description = document.createElement("div");
+    var dpad;
     createUI();
     generateObjects();
     (function renderLoop() {
@@ -95,7 +96,9 @@ var main = function () {
     }
 
     function onTouchMove(event) {
+        var rect = ev.target.getBoundingClientRect();
         for (var i = 0; i < event.touches.length; i++) {
+            if (t.pageX <= 200 && t.pageY >= rect.top - 200) alert("dpad");
             var t = event.touches[i];
             var r = (t.pageX - lastTouch.x) / width * 5;
             rot = r + rot;
@@ -245,6 +248,7 @@ var main = function () {
         */
         renderer.domElement.style.position = "absolute";
         renderer.domElement.style.zIndex = "0";
+        //cross
         var cross = document.createElement("img");
         cross.src = "images/cross.png";
         cross.style.top = (height / 2 - 20) + "px";
@@ -254,6 +258,17 @@ var main = function () {
         cross.width = 40;
         cross.height = 40;
         document.body.appendChild(cross);
+        //d-pad
+        dpad = document.createElement("img");
+        dpad.src = "images/dpad.png";
+        dpad.style.top = (height - 200) + "px";
+        dpad.style.left = 0 + "px";
+        dpad.style.position = "absolute";
+        dpad.style.zIndex = "1";
+        dpad.width = 200;
+        dpad.height = 200;
+        document.body.appendChild(dpad);
+        //description
         renderer.domElement.style.cursor = "none";
         description.style.color = "#fff";
         description.style.position = "absolute";
