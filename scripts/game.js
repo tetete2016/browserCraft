@@ -100,7 +100,7 @@ var main = function () {
         for (var i = 0; i < event.touches.length; i++) {
             var t = event.touches[i];
             var r = (t.pageX - lastTouch.x) / width * 5;
-            if (t.pageX <= 200 && t.pageY >= document.body.clientHeight - 200) alert("dpad");
+            if (t.pageX <= 200) description.innerHTML = "dpad";
             rot = r + rot;
             pitch += (t.pageY - lastTouch.y) / height * Math.PI;
             if (pitch < -Math.PI * 1.5) pitch = -Math.PI * 1.5;
