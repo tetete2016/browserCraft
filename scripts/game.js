@@ -84,11 +84,24 @@ var main = function () {
     var firsttouch = true;
 
     function onTouchDpad(event) {
+        var bb = e.target.getBoundingClientRect();
+        //w:87 s:83 d:68 a:65
         for (var i = 0; i < event.touches.length; i++) {
             var t = event.touches[i];
-            alert("touch pad");
+            var x = t.pageX - bb.left;
+            var y = t.pageY - bb.top;
+            description.innerHTML = x + "," + y;
             break;
         }
+        event.preventDefault();
+    }
+
+    function onTouchDpadUp(event) {
+        //w:87 s:83 d:68 a:65
+        keysPress[87] = false;
+        keysPress[83] = false;
+        keysPress[68] = false;
+        keysPress[65] = false;
         event.preventDefault();
     }
 
@@ -128,7 +141,7 @@ var main = function () {
 
     function onTouchEnd(event) {
         //do stuff
-        description.innerHTML = new Date().getTime() - touchTime;
+        //description.innerHTML = new Date().getTime() - touchTime;
         var xd = touchPos.x - lastTouch.x;
         var yd = touchPos.y - lastTouch.y;
         if (new Date().getTime() - touchTime < 200 && xd * xd + yd * yd < 10) {
@@ -280,7 +293,7 @@ var main = function () {
         dpad.height = 200;
         dpad.addEventListener('touchstart', onTouchDpad, false);
         dpad.addEventListener('touchmove', onTouchDpad, false);
-        dpad.addEventListener('touchend', onTouchDpad, false);
+        dpad.addEventListener('touchend', onTouchDpadUp, false);
         document.body.appendChild(dpad);
         //description
         renderer.domElement.style.cursor = "none";
