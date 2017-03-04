@@ -89,10 +89,16 @@ var main = function () {
             var t = event.touches[i];
             var xd = t.pageX;
             var yd = t.pageY - window.innerHeight + 200;
+            /* completely opposite
             keysPress[65] = xd >= 125 ? true : false;
             keysPress[68] = xd <= 75 ? true : false;
             keysPress[87] = yd >= 125 ? true : false;
             keysPress[83] = yd <= 75 ? true : false;
+            */
+            keysPress[65] = xd <= 75 ? true : false;
+            keysPress[68] = xd >= 125 ? true : false;
+            keysPress[87] = yd <= 75 ? true : false;
+            keysPress[83] = yd >= 125 ? true : false;
             //description.innerHTML = xd + "," + yd + "," + window.innerHeight;
             break;
         }
