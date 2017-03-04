@@ -89,7 +89,7 @@ var main = function () {
             var t = event.touches[i];
             var xd = t.pageX;
             var yd = t.pageY - window.innerHeight + 200;
-            description.innerHTML = xd + "," + yd;
+            description.innerHTML = xd + "," + yd + "," + window.innerHeight;
             break;
         }
         event.preventDefault();
