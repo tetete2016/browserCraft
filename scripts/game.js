@@ -84,13 +84,12 @@ var main = function () {
     var firsttouch = true;
 
     function onTouchDpad(event) {
-        var bb = e.target.getBoundingClientRect();
         //w:87 s:83 d:68 a:65
         for (var i = 0; i < event.touches.length; i++) {
             var t = event.touches[i];
-            var x = t.pageX - bb.left;
-            var y = t.pageY - bb.top;
-            description.innerHTML = x + "," + y;
+            var xd = t.pageX;
+            var yd = t.pageY;
+            description.innerHTML = xd + "," + yd;
             break;
         }
         event.preventDefault();
