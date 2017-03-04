@@ -89,8 +89,8 @@ var main = function () {
             var t = event.touches[i];
             var xd = t.pageX;
             var yd = t.pageY - window.innerHeight + 200;
-            keysPress[65] = xd <= 75 ? true : false;
-            keysPress[68] = xd >= 125 ? true : false;
+            keysPress[65] = xd >= 125 ? true : false;
+            keysPress[68] = xd <= 75 ? true : false;
             keysPress[87] = yd >= 125 ? true : false;
             keysPress[83] = yd <= 75 ? true : false;
             //description.innerHTML = xd + "," + yd + "," + window.innerHeight;
@@ -310,7 +310,7 @@ var main = function () {
         description.style.color = "#fff";
         description.style.position = "absolute";
         description.style.zIndex = "1";
-        description.innerHTML = "right click : put blocks<br>left click : destroy blocks<br>sar21:28";
+        description.innerHTML = "right click : put blocks<br>left click : destroy blocks<br>sar21:40";
         document.body.appendChild(description);
         window.onresize = function () {
             width = window.innerWidth;
