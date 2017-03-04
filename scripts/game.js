@@ -121,6 +121,10 @@ var main = function () {
         for (var i = 0; i < event.touches.length; i++) {
             var t = event.touches[i];
             var r = (t.pageX - lastTouch.x) / width * 5;
+            if (firsttouch) {
+                lastTouch.x = t.pageX;
+                lastTouch.y = t.pageY;
+            }
             rot = r + rot;
             pitch += (t.pageY - lastTouch.y) / height * Math.PI;
             if (pitch < -Math.PI * 1.5) pitch = -Math.PI * 1.5;
@@ -132,6 +136,7 @@ var main = function () {
             //description.innerHTML = r;
             lastTouch.x = t.pageX;
             lastTouch.y = t.pageY;
+            firsttouch = false;
             break;
         }
         // Prevent the browser from doing its default thing (scroll, zoom)
