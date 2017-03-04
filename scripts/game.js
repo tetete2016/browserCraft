@@ -107,8 +107,10 @@ var main = function () {
     function onTouchStart(event) {
         for (var i = 0; i < event.touches.length; i++) {
             var t = event.touches[i];
-            lastTouch.x = t.pageX;
-            lastTouch.y = t.pageY;
+            if (!firsttouch) {
+                lastTouch.x = t.pageX;
+                lastTouch.y = t.pageY;
+            }
             touchPos.x = t.pageX;
             touchPos.y = t.pageY;
             touchTime = new Date().getTime();
