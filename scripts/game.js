@@ -89,7 +89,11 @@ var main = function () {
             var t = event.touches[i];
             var xd = t.pageX;
             var yd = t.pageY - window.innerHeight + 200;
-            description.innerHTML = xd + "," + yd + "," + window.innerHeight;
+            if (xd <= 75) keysPress[65] = true;
+            if (xd >= 125) keysPress[68] = true;
+            if (yd <= 75) keysPress[87] = true;
+            if (yd >= 125) keysPress[83] = true;
+            //description.innerHTML = xd + "," + yd + "," + window.innerHeight;
             break;
         }
         event.preventDefault();
