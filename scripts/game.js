@@ -83,6 +83,15 @@ var main = function () {
     var touchTime = 0;
     var firsttouch = true;
 
+    function onTouchDpad(event) {
+        for (var i = 0; i < event.touches.length; i++) {
+            var t = event.touches[i];
+            alert("touch pad");
+            break;
+        }
+        event.preventDefault();
+    }
+
     function onTouchStart(event) {
         for (var i = 0; i < event.touches.length; i++) {
             var t = event.touches[i];
@@ -100,7 +109,6 @@ var main = function () {
         for (var i = 0; i < event.touches.length; i++) {
             var t = event.touches[i];
             var r = (t.pageX - lastTouch.x) / width * 5;
-            if (t.pageX <= 200) description.innerHTML = "dpad";
             rot = r + rot;
             pitch += (t.pageY - lastTouch.y) / height * Math.PI;
             if (pitch < -Math.PI * 1.5) pitch = -Math.PI * 1.5;
@@ -257,6 +265,9 @@ var main = function () {
         cross.style.zIndex = "1";
         cross.width = 40;
         cross.height = 40;
+        cross.addEventListener('touchstart', onTouchStart, false);
+        cross.addEventListener('touchmove', onTouchMove, false);
+        cross.addEventListener('touchend', onTouchEnd, false);
         document.body.appendChild(cross);
         //d-pad
         dpad = document.createElement("img");
@@ -267,6 +278,9 @@ var main = function () {
         dpad.style.zIndex = "1";
         dpad.width = 200;
         dpad.height = 200;
+        dpad.addEventListener('touchstart', onTouchDpad, false);
+        dpad.addEventListener('touchmove', onTouchDpad, false);
+        dpad.addEventListener('touchend', onTouchDpad, false);
         document.body.appendChild(dpad);
         //description
         renderer.domElement.style.cursor = "none";
