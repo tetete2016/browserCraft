@@ -146,7 +146,7 @@ var main = function () {
             var h = Math.sin(pitch * Math.PI + Math.PI * 0.5);
             var c = Math.sqrt(1 - h * h);
             // pi*1.5≤ev.clientY / height * Math.PI + Math.PI * 0.5≤pi*1.5  0≤ev.clientY / height≤pi
-            camera.lookAt(new THREE.Vector3(Math.sin(rot) * c + camera.position.x, camera.position.y + h, Math.cos(rot) * c + camera.position.z));
+            camera.lookAt(new THREE.Vector3(Math.sin(rot + Math.PI) * c + camera.position.x, camera.position.y + h, Math.cos(rot + Math.PI) * c + camera.position.z));
             //camera.lookAt(new THREE.Vector3(Math.sin(rot) + camera.position.x, camera.position.y, Math.cos(rot) + camera.position.z));
             //description.innerHTML = r;
             lastTouch.x = t.pageX;
@@ -318,7 +318,7 @@ var main = function () {
         description.style.color = "#fff";
         description.style.position = "absolute";
         description.style.zIndex = "1";
-        description.innerHTML = "right click : put blocks<br>left click : destroy blocks<br>9:56";
+        description.innerHTML = "right click : put blocks<br>left click : destroy blocks<br>10:05";
         document.body.appendChild(description);
         window.onresize = function () {
             width = window.innerWidth;
