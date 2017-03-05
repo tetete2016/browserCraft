@@ -318,7 +318,7 @@ var main = function () {
         description.style.color = "#fff";
         description.style.position = "absolute";
         description.style.zIndex = "1";
-        description.innerHTML = "right click : put blocks<br>left click : destroy blocks<br>9:22";
+        description.innerHTML = "right click : put blocks<br>left click : destroy blocks<br>9:56";
         document.body.appendChild(description);
         window.onresize = function () {
             width = window.innerWidth;
