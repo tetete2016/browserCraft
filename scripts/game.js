@@ -40,6 +40,7 @@ var main = function () {
         vz *= deltaTime * 10;
         camera.position.x = camera.position.x + vx;
         camera.position.z = camera.position.z + vz;
+        camera.lookAt(new THREE.Vector3(Math.sin(rot) * c + camera.position.x, camera.position.y + h, Math.cos(rot) * c + camera.position.z));
         //mesh.rotation.set(0, mesh.rotation.y + 0.01, mesh.rotation.z + 0.01);
         renderer.render(scene, camera);
         //UI
