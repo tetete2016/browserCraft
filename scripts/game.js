@@ -40,7 +40,6 @@ var main = function () {
         vz *= deltaTime * 10;
         camera.position.x = camera.position.x + vx;
         camera.position.z = camera.position.z + vz;
-        camera.lookAt(new THREE.Vector3(Math.sin(rot) * c + camera.position.x, camera.position.y + h, Math.cos(rot) * c + camera.position.z));
         //mesh.rotation.set(0, mesh.rotation.y + 0.01, mesh.rotation.z + 0.01);
         renderer.render(scene, camera);
         //UI
@@ -51,7 +50,7 @@ var main = function () {
         x: 0
         , y: 0
     };
-    var pitch = 0;
+    var pitch = 0.5;
     console.log(scene.objects);
     window.onkeydown = function (ev) {
         keysPress[ev.keyCode] = true;
@@ -141,11 +140,12 @@ var main = function () {
                 break;
             }
             rot = r + rot;
-            pitch += (t.pageY - lastTouch.y) / height * Math.PI;
-            if (pitch < -Math.PI * 1.5) pitch = -Math.PI * 1.5;
-            if (pitch > Math.PI * 0.5) pitch = Math.PI * 0.5;
-            var h = Math.sin(pitch);
+            pitch += (t.pageY - lastTouch.y) / height;
+            if (pitch < 0) pitch = 0;
+            if (pitch > 1) pitch = 1;
+            var h = Math.sin(pitch * Math.PI + Math.PI * 0.5);
             var c = Math.sqrt(1 - h * h);
+            // pi*1.5≤ev.clientY / height * Math.PI + Math.PI * 0.5≤pi*1.5  0≤ev.clientY / height≤pi
             camera.lookAt(new THREE.Vector3(Math.sin(rot) * c + camera.position.x, camera.position.y + h, Math.cos(rot) * c + camera.position.z));
             //camera.lookAt(new THREE.Vector3(Math.sin(rot) + camera.position.x, camera.position.y, Math.cos(rot) + camera.position.z));
             //description.innerHTML = r;
