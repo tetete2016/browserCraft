@@ -136,6 +136,7 @@ var main = function () {
             if (firsttouch) {
                 lastTouch.x = t.pageX;
                 lastTouch.y = t.pageY;
+                break;
             }
             rot = r + rot;
             pitch += (t.pageY - lastTouch.y) / height * Math.PI;
@@ -316,7 +317,7 @@ var main = function () {
         description.style.color = "#fff";
         description.style.position = "absolute";
         description.style.zIndex = "1";
-        description.innerHTML = "right click : put blocks<br>left click : destroy blocks<br>sar22:17";
+        description.innerHTML = "right click : put blocks<br>left click : destroy blocks<br>9:13";
         document.body.appendChild(description);
         window.onresize = function () {
             width = window.innerWidth;
