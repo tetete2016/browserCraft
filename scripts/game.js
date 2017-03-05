@@ -136,6 +136,7 @@ var main = function () {
             if (firsttouch) {
                 lastTouch.x = t.pageX;
                 lastTouch.y = t.pageY;
+                firsttouch = false;
                 break;
             }
             rot = r + rot;
@@ -149,7 +150,6 @@ var main = function () {
             //description.innerHTML = r;
             lastTouch.x = t.pageX;
             lastTouch.y = t.pageY;
-            firsttouch = false;
             break;
         }
         // Prevent the browser from doing its default thing (scroll, zoom)
@@ -317,7 +317,7 @@ var main = function () {
         description.style.color = "#fff";
         description.style.position = "absolute";
         description.style.zIndex = "1";
-        description.innerHTML = "right click : put blocks<br>left click : destroy blocks<br>9:13";
+        description.innerHTML = "right click : put blocks<br>left click : destroy blocks<br>9:22";
         document.body.appendChild(description);
         window.onresize = function () {
             width = window.innerWidth;
