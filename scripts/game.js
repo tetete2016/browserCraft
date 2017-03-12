@@ -4,10 +4,10 @@ var main = function () {
     var height = window.innerHeight;
     var fov = 60;
     var aspect = width / height;
-    var near = 1;
+    var near = 0.1;
     var far = 1000;
     var camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-    camera.position.set(0, 0, 50);
+    camera.position.set(0, 2, 0);
     var renderer = new THREE.WebGLRenderer();
     renderer.setSize(width, height);
     document.body.appendChild(renderer.domElement);
@@ -20,6 +20,9 @@ var main = function () {
     var deltaTime = 0;
     var description = document.createElement("div");
     var dpad;
+    var vx = 0;
+    var vy = 0;
+    var vz = 0;
     createUI();
     generateObjects();
     (function renderLoop() {
@@ -34,12 +37,27 @@ var main = function () {
         if (keysPress[83]) rz = -1;
         if (keysPress[68]) rx = -1;
         if (keysPress[65]) rx = 1;
-        var vx = rz * Math.sin(rot1) + rx * Math.sin(rot1 + Math.PI * 0.5);
+        vx = rz * Math.sin(rot1) + rx * Math.sin(rot1 + Math.PI * 0.5);
         vx *= deltaTime * 10;
-        var vz = rz * Math.cos(rot1) + rx * Math.cos(rot1 + Math.PI * 0.5);
+        vz = rz * Math.cos(rot1) + rx * Math.cos(rot1 + Math.PI * 0.5);
         vz *= deltaTime * 10;
-        camera.position.x = camera.position.x + vx;
-        camera.position.z = camera.position.z + vz;
+        //collision
+        //xz
+        var c = true;
+        for (var i = 0; i < 2; i++) {
+            var ray = new THREE.Raycaster(new THREE.Vector3(camera.position.x, camera.position.y - 0.5 + i, camera.position.z), new THREE.Vector3(vx, 0, vz).normalize());
+            var obj = ray.intersectObjects(targetList);
+            if (obj.length > 0) {
+                description.innerHTML = obj[0].distance;
+                if (obj[0].distance < 0.5) {
+                    c = false;
+                }
+            }
+        }
+        if (c) {
+            camera.position.x = camera.position.x + vx;
+            camera.position.z = camera.position.z + vz;
+        }
         //mesh.rotation.set(0, mesh.rotation.y + 0.01, mesh.rotation.z + 0.01);
         renderer.render(scene, camera);
         //UI
@@ -163,7 +181,9 @@ var main = function () {
         var xd = touchPos.x - lastTouch.x;
         var yd = touchPos.y - lastTouch.y;
         if (new Date().getTime() - touchTime < 200 && xd * xd + yd * yd < 10) {
-            put(0, 0);
+            width = window.innerWidth;
+            height = window.innerHeight;
+            put(lastTouch.x / width, lastTouch.y / height);
         }
     }
 
@@ -173,6 +193,8 @@ var main = function () {
         var ray = new THREE.Raycaster(camera.position, vector.sub(camera.position).normalize());
         var obj = ray.intersectObjects(targetList);
         if (obj.length > 0) {
+            addCube(obj[0].object.position.x + obj[0].face.normal.x, obj[0].object.position.y + obj[0].face.normal.y, obj[0].object.position.z + obj[0].face.normal.z);
+            /*
             var geometry = new THREE.CubeGeometry(1, 1, 1);
             var material = new THREE.MeshPhongMaterial({
                 color: 0xffffff
@@ -183,6 +205,7 @@ var main = function () {
             cube.position.y = obj[0].object.position.y + obj[0].face.normal.y;
             cube.position.z = obj[0].object.position.z + obj[0].face.normal.z;
             targetList.push(cube);
+            */
         }
     }
 
@@ -264,7 +287,11 @@ var main = function () {
         scene.add(directionalLight);
         var light = new THREE.AmbientLight(0x404040); // soft white light
         scene.add(light);
-        for (var i = 0; i < 1000; i++) {
+        for (var i = 0; i < 10; i++) {
+            for (var j = 0; j < 10; j++) {
+                addCube(i, 0, j);
+            }
+            /*
             var geometry = new THREE.CubeGeometry(1, 1, 1);
             var material = new THREE.MeshPhongMaterial({
                 color: 0xff0000
@@ -273,6 +300,25 @@ var main = function () {
             scene.add(mesh);
             mesh.position.set(Math.random() * 100 - 50, i % 5, Math.random() * 100 - 50);
             targetList[i] = mesh;
+            */
+        }
+    }
+
+    function addCube(x, y, z) {
+        var geometry = new THREE.CubeGeometry(1, 1, 1);
+        var material = new THREE.MeshPhongMaterial({
+            color: 0xff0000
+        });
+        var mesh = new THREE.Mesh(geometry, material);
+        scene.add(mesh);
+        mesh.position.set(x, y, z);
+        targetList[targetList.length] = mesh;
+        for (var i = 0; i < targetList.length - 1; i++) {
+            var a = targetList[i];
+            if (a.position.x == mesh.position.x && a.position.y == mesh.position.y && a.position.z == mesh.position.z) {
+                targetList.splice(i, 1);
+                scene.remove(a.object);
+            }
         }
     }
 
