@@ -23,8 +23,28 @@ var main = function () {
     var vx = 0;
     var vy = 0;
     var vz = 0;
+    var SIZE=10;
+    var SPAWN_X=SIZE/2;
+    var SPAWN_Y=2;
+    var SPAWN_Z=SIZE/2;
+    var projector = new THREE.Projector();
+    var mouse = {
+        x: 0
+        , y: 0
+    };
+
+    var grass = new THREE.TextureLoader().load( "images/dpad.png" );
+    grass.wrapS = THREE.RepeatWrapping;
+    grass.wrapT = THREE.RepeatWrapping;
+    //grass.repeat.set( 4, 4 );
+    var grounded=false;
+    var pitch = 0.5;
+    //grass.onload=function(){
     createUI();
     generateObjects();
+    var selected=0;
+    var inventory=[0,1,2,3,4,5];
+    //};
     (function renderLoop() {
         requestAnimationFrame(renderLoop);
         var rx = 0;
@@ -38,37 +58,61 @@ var main = function () {
         if (keysPress[68]) rx = -1;
         if (keysPress[65]) rx = 1;
         vx = rz * Math.sin(rot1) + rx * Math.sin(rot1 + Math.PI * 0.5);
-        vx *= deltaTime * 10;
+        vx *= 10;
         vz = rz * Math.cos(rot1) + rx * Math.cos(rot1 + Math.PI * 0.5);
-        vz *= deltaTime * 10;
+        vz *= 10;
         //collision
         //xz
         var c = true;
+        //side ways
         for (var i = 0; i < 2; i++) {
             var ray = new THREE.Raycaster(new THREE.Vector3(camera.position.x, camera.position.y - 0.5 + i, camera.position.z), new THREE.Vector3(vx, 0, vz).normalize());
             var obj = ray.intersectObjects(targetList);
             if (obj.length > 0) {
-                description.innerHTML = obj[0].distance;
+                //description.innerHTML = obj[0].distance;
                 if (obj[0].distance < 0.5) {
                     c = false;
                 }
             }
         }
-        if (c) {
-            camera.position.x = camera.position.x + vx;
-            camera.position.z = camera.position.z + vz;
+        // up and down
+        vy-=deltaTime*20;
+        grounded=false;
+        var d=Math.abs(vy*deltaTime);
+        d=d<=1?1:d;
+        for (var i = 0; i < 8; i++) {
+            var a=i/8*3.14;
+            var ray = new THREE.Raycaster(new THREE.Vector3(camera.position.x+Math.sin(a), camera.position.y -1, camera.position.z+Math.cos(a)), new THREE.Vector3(0, -1, 0));
+            var obj = ray.intersectObjects(targetList);
+            if (obj.length > 0) {
+                if (obj[0].distance <= d) {
+                    camera.position.y+=1-obj[0].distance;
+                    if(vy<0){
+                        vy=0;
+                    }
+                    grounded=true;
+                }
+            }
         }
+        //if(vy>0)grounded=false;
+        if(grounded&&keysPress[32]){
+            vy=8;
+        }
+        if (c) {
+            camera.position.x = camera.position.x + vx*deltaTime;
+            camera.position.y = camera.position.y + vy*deltaTime;
+            camera.position.z = camera.position.z + vz*deltaTime;
+        }
+        if(camera.position.y<-10)respawn();
         //mesh.rotation.set(0, mesh.rotation.y + 0.01, mesh.rotation.z + 0.01);
         renderer.render(scene, camera);
         //UI
         lastFrame = new Date().getTime();
+        description.innerHTML=inventory[selected];
+        
+        description.innerHTML=deltaTime;
     })();
-    var projector = new THREE.Projector();
-    var mouse = {
-        x: 0
-        , y: 0
-    };
-    var pitch = 0.5;
+
     console.log(scene.objects);
     window.onkeydown = function (ev) {
         keysPress[ev.keyCode] = true;
@@ -100,7 +144,11 @@ var main = function () {
     };
     var touchTime = 0;
     var firsttouch = true;
-
+    function respawn(){
+        camera.position.x=SPAWN_X;
+        camera.position.y=SPAWN_Y;
+        camera.position.z=SPAWN_Z;
+    }
     function onTouchDpad(event) {
         //w:87 s:83 d:68 a:65
         for (var i = 0; i < event.touches.length; i++) {
@@ -225,7 +273,6 @@ var main = function () {
             scene.remove(obj[0].object);
         }
     }
-
     function rotateCamera(xaxis, yaxis) {}
     window.onmousedown = function (ev) {
         console.log(ev.target.tagName);
@@ -238,7 +285,11 @@ var main = function () {
             if (ev.button == 0) {
                 //put(mouse.x, mouse.y);
                 //put(0, 0);
-                destroy(0, 0);
+                if(inventory[selected]==0){
+                    destroy(0, 0);
+                }else{
+                    put(0,0);
+                }
             }
             if (ev.button == 2) {
                 put(0, 0);
@@ -282,13 +333,16 @@ var main = function () {
     };
 
     function generateObjects() {
+        camera.position.x =SPAWN_X;
+        camera.position.y =SPAWN_Y;
+        camera.position.z =SPAWN_Z;
         var directionalLight = new THREE.DirectionalLight(0xffffff);
         directionalLight.position.set(0, 0.7, 0.7);
         scene.add(directionalLight);
         var light = new THREE.AmbientLight(0x404040); // soft white light
         scene.add(light);
-        for (var i = 0; i < 10; i++) {
-            for (var j = 0; j < 10; j++) {
+        for (var i = 0; i < SIZE; i++) {
+            for (var j = 0; j < SIZE; j++) {
                 addCube(i, 0, j);
             }
             /*
@@ -307,7 +361,7 @@ var main = function () {
     function addCube(x, y, z) {
         var geometry = new THREE.CubeGeometry(1, 1, 1);
         var material = new THREE.MeshPhongMaterial({
-            color: 0xff0000
+            map:grass
         });
         var mesh = new THREE.Mesh(geometry, material);
         scene.add(mesh);
