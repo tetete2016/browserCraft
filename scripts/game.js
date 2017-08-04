@@ -33,7 +33,7 @@ var main = function () {
         , y: 0
     };
 
-    var grass = new THREE.TextureLoader().load( "images/dpad.png" );
+    var grass = new THREE.TextureLoader().load( "images/grass.jpg" );
     grass.wrapS = THREE.RepeatWrapping;
     grass.wrapT = THREE.RepeatWrapping;
     //grass.repeat.set( 4, 4 );
